@@ -1,6 +1,15 @@
+NASM=nasm
+NFLAGS=-g -f bin
 
-all: boot.bin
+.PHONY: clean compile
 
+SRCS = $(wildcard *.asm)
+BINS = $(patsubst %.asm,%.bin,$(SRCS))
 
-boot.bin: boot.asm
-	nasm -f bin -o boot.bin boot.asm
+compile: $(BINS)
+
+%.bin: %.asm
+	$(NASM) $(NFLAGS) -o $@ $<
+
+clean:
+	rm -f $(BINS)
