@@ -1,9 +1,7 @@
-readonly ROOT="build/toolchain"
+readonly DOWNLOAD_DIR="/tmp"
 
-readonly DOWNLOAD_DIR=$ROOT/"Downloads"
-
-readonly PREFIX=$PWD/$ROOT
 readonly TARGET="i686-elf"
+readonly PREFIX="/opt/"$TARGET
 
 # Path should be updated manually in every script
 # The location is build/toolchain/bin
@@ -19,16 +17,16 @@ readonly TOOL_LIST_FUNC=(__make_binutils __make_gcc)
 __make_binutils() {
   mkdir -p build && cd build \
   && ../configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror \
-  && make && make install
+  && make -j 4 && sudo make install
 }
 
 __make_gcc() {
   mkdir -p build && cd build \
   && ../configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers\
-  && make all-gcc \
-  && make all-target-libgcc \
-  && make install-gcc \
-  && make install-target-libgcc
+  && make -j 4 all-gcc \
+  && make -j 4 all-target-libgcc \
+  && sudo make install-gcc \
+  && sudo make install-target-libgcc
 }
 
 pushd() {
@@ -42,8 +40,7 @@ popd() {
 }
 
 __initialize() {
-  mkdir -p $ROOT
-  mkdir -p $DOWNLOAD_DIR
+  sudo mkdir -p $PREFIX
 }
 
 __download_sources() {
