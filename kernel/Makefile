@@ -5,7 +5,7 @@ all: $(KERNEL)
 
 $(OUT)/kernel/%.o: %.c
 	@ mkdir -p $(OUT)/kernel
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -I. -o $@ $<
 
 clean:
 	rm -rf $(OUT)/kernel
