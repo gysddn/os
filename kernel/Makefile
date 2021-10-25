@@ -1,5 +1,5 @@
-KERNEL        :=$(OUT)/kernel/kernel.o
-CFLAGS        :=-c -ffreestanding
+KERNEL        :=$(OUT)/kernel/kernel.o $(OUT)/kernel/vga.o
+CFLAGS        :=-c -ffreestanding -masm=att
 
 all: $(KERNEL)
 
