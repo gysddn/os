@@ -101,6 +101,20 @@ static void _write_vga_port(const u16 port, const u8 value) {
           );
 }
 
+static u8 _write_vga_port_safe(const u16 port, const u8 value) {
+  _write_vga_port(port, value);
+
+  if (_read_vga_port(port) == value) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+/*
+ * The external registers have different ports to read from and write to, for that reason
+ * this separate safe function is added.
+ */
 static u8 _write_ext_vga_port(const u16 write_port, const u16 read_port, const u8 value) {
   _write_vga_port(write_port, value);
 
