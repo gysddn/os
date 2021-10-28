@@ -31,48 +31,48 @@ enum {
  * REGISTER MANAGEMENT
  */
 
+typedef struct {
+  union {
+    u16 readPort;
+    struct {
+      u16 readPortMono;
+      u16 readPortColor;
+    } readPorts;
+  };
+  union {
+    u16 writePort;
+    struct {
+      u16 writePortMono;
+      u16 writePortColor;
+    } writePorts;
+  };
+} BasicRegister;
+
+typedef struct {
+  u16 addressPort;
+  u16 dataPort;
+  u8 index;
+} IndexedRegister;
+
+typedef struct {
+  struct {
+    u16 addressPort;
+    u16 dataPort;
+  } pair0;
+  struct {
+    u16 addressPort;
+    u16 dataPort;
+  } pair1;
+  u8 index;
+} CRTRegister;
+
 /*
- * External Registers
+ * AttributeRegister has the same fields as IndexedRegister
+ * but AttributeRegister has a more confusing way of using them
+ * so they will be processed differently.
  */
+typedef IndexedRegister AttributeRegister;
 
-
-#define EXT_MISCELLANEOUS_OUTPUT_REGISTER_READ     0x3CC
-#define EXT_MISCELLANEOUS_OUTPUT_REGISTER_WRITE    0x3C2
-
-#define EXT_FEATURE_CONTROL_REGISTER_READ          0x3CA
-#define EXT_FEATURE_CONTROL_REGISTER_WRITE_MONO    0x3BA
-#define EXT_FEATURE_CONTROL_REGISTER_WRITE_COLOR   0x3DA
-
-/* READ ONLY */
-#define EXT_INPUT_STATUS_ZERO                      0x3C2
-#define EXT_INPUT_STATUS_ONE_MONO                  0x3BA
-#define EXT_INPUT_STATUS_ONE_COLOR                 0x3DA
-
-#define VSYNCP_OFFSET               7
-#define VSYNCP_LENGTH               1
-#define HSYNCP_OFFSET               6
-#define HSYNCP_LENGTH               1
-#define OEPAGE_OFFSET               5
-#define OEPAGE_LENGTH               1
-#define CLOCK_SEL_OFFSET            2
-#define CLOCK_SEL_LENGTH            2
-#define RAM_EN_OFFSET               1
-#define RAM_EN_LENGTH               1
-#define IOEN_OFFSET                 0
-#define IOEN_LENGTH                 1
-
-#define FC1_OFFSET                  1
-#define FC1_LENGTH                  1
-#define FC0_OFFSET                  0
-#define FC0_LENGTH                  1
-
-#define SS_OFFSET                   4
-#define SS_LENGTH                   1
-
-#define VRETRACE_OFFSET             3
-#define VRETRACE_LENGTH             1
-#define DD_OFFSET                   0
-#define DD_LENGTH                   1
 
 static inline u8 _read_vga_port(const u16 port) {
   u8 value;
