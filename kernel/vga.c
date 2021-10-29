@@ -140,6 +140,33 @@ inline static u8 _write_reg_idx(const IndexedRegister reg, const u8 value) {
   return _write_vga_port_safe(reg.dataPort, value);
 }
 
+//TODO Disable "CRTC Registers Protect Enable" field because the kernel will not allow
+//any access to VGA other than the interface provided by vga.h
+static u8 _read_reg_crt(const CRTRegister reg) {
+  //Read Miscellaneous Output Register and mask with 1 to get
+  //I/O Access field, which dictates which pair to use
+  u8 io_addr_sel = _read_vga_port(0x3CC) & 0x1;
+  if (io_addr_sel == 0) {
+    _write_vga_port_safe(reg.pair0.addressPort, reg.index);
+    return _read_vga_port(reg.pair0.dataPort);
+  } else {
+    _write_vga_port_safe(reg.pair1.addressPort, reg.index);
+    return _read_vga_port(reg.pair1.dataPort);
+  }
+}
+
+static u8 _write_reg_crt(const CRTRegister reg, const u8 value) {
+  //Read Miscellaneous Output Register and mask with 1 to get
+  //I/O Access field, which dictates which pair to use
+  u8 io_addr_sel = _read_vga_port(0x3CC) & 0x1;
+  if (io_addr_sel == 0) {
+    _write_vga_port_safe(reg.pair0.addressPort, reg.index);
+    return _write_vga_port_safe(reg.pair0.dataPort, value);
+  } else {
+    _write_vga_port_safe(reg.pair1.addressPort, reg.index);
+    return _write_vga_port_safe(reg.pair1.dataPort, value);
+  }
+}
 
 /*
  * The external registers have different ports to read from and write to, for that reason
