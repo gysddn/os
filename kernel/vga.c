@@ -32,21 +32,16 @@ enum {
  */
 
 typedef struct {
-  union {
-    u16 readPort;
-    struct {
-      u16 readPortMono;
-      u16 readPortColor;
-    } readPorts;
-  };
-  union {
-    u16 writePort;
-    struct {
-      u16 writePortMono;
-      u16 writePortColor;
-    } writePorts;
-  };
+  u16 readPort;
+  u16 writePort;
 } BasicRegister;
+
+typedef struct {
+  u16 readPortMono;
+  u16 readPortColor;
+  u16 writePortMono;
+  u16 writePortColor;
+} ExtendedRegister;
 
 typedef struct {
   u16 addressPort;
