@@ -168,6 +168,26 @@ static u8 _write_reg_crt(const CRTRegister reg, const u8 value) {
   }
 }
 
+//AttributeRegister uses the same port for writes to address and data ports, with a flip-flop
+//inside the card holding the state. There is no standard way to access it but it is reset 
+//by reading the external register InputStatus #1. TODO handle interrupts here.
+static u8 _read_reg_atr(const AttributeRegister reg) {
+  //read InputStatus #1 to reset flip-flop
+  _read_vga_port(0x3BA);
+
+  _write_vga_port_safe(reg.addressPort, reg.index);
+  return _read_vga_port(reg.dataPort);
+}
+
+static u8 _write_reg_atr(const AttributeRegister reg, const u8 value) {
+  //read InputStatus #1 to reset flip-flop
+  _read_vga_port(0x3BA);
+
+  _write_vga_port_safe(reg.addressPort, reg.index);
+  //The .dataPort is only available for reading, writing to dataPort is done
+  //via .addressPort
+  return _write_vga_port_safe(reg.addressPort, value);
+}
 /*
  * The external registers have different ports to read from and write to, for that reason
  * this separate safe function is added.
