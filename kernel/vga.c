@@ -130,6 +130,16 @@ inline static u8 _write_reg_ext_color(const ExtendedRegister reg, const u8 value
   return _write_vga_port_safe(reg.writePortColor, value);
 }
 
+inline static u8 _read_reg_idx(const IndexedRegister reg) {
+  _write_vga_port_safe(reg.addressPort, reg.index);
+  return _read_vga_port(reg.dataPort);
+}
+
+inline static u8 _write_reg_idx(const IndexedRegister reg, const u8 value) {
+  _write_vga_port_safe(reg.addressPort, reg.index);
+  return _write_vga_port_safe(reg.dataPort, value);
+}
+
 
 /*
  * The external registers have different ports to read from and write to, for that reason
