@@ -106,6 +106,31 @@ static u8 _write_vga_port_safe(const u16 port, const u8 value) {
   }
 }
 
+inline static u8 _read_reg_basic(const BasicRegister reg) {
+  return _read_vga_port(reg.readPort);
+}
+
+inline static u8 _write_reg_basic(const BasicRegister reg, const u8 value) {
+  return _write_vga_port_safe(reg.readPort, value);
+}
+
+inline static u8 _read_reg_ext_mono(const ExtendedRegister reg) {
+  return _read_vga_port(reg.readPortMono);
+}
+
+inline static u8 _read_reg_ext_color(const ExtendedRegister reg) {
+  return _read_vga_port(reg.readPortColor);
+}
+
+inline static u8 _write_reg_ext_mono(const ExtendedRegister reg, const u8 value) {
+  return _write_vga_port_safe(reg.writePortMono, value);
+}
+
+inline static u8 _write_reg_ext_color(const ExtendedRegister reg, const u8 value) {
+  return _write_vga_port_safe(reg.writePortColor, value);
+}
+
+
 /*
  * The external registers have different ports to read from and write to, for that reason
  * this separate safe function is added.
