@@ -5,27 +5,6 @@
  */
 
 #include "vga.h"
-#include "types.h"
-
-enum {
-  VGA_BIOS_COLOR_BLACK         = 0x0,
-  VGA_BIOS_COLOR_BLUE          = 0x1,
-  VGA_BIOS_COLOR_GREEN         = 0x2,
-  VGA_BIOS_COLOR_CYAN          = 0x3,
-  VGA_BIOS_COLOR_RED           = 0x4,
-  VGA_BIOS_COLOR_MAGENTA       = 0x5,
-  VGA_BIOS_COLOR_BROWN         = 0x6,
-  VGA_BIOS_COLOR_WHITE         = 0x7,
-  VGA_BIOS_COLOR_GRAY          = 0x8,
-  VGA_BIOS_COLOR_LIGHT_BLUE    = 0x9,
-  VGA_BIOS_COLOR_LIGHT_GREEN   = 0xA,
-  VGA_BIOS_COLOR_LIGHT_CYAN    = 0xB,
-  VGA_BIOS_COLOR_LIGHT_RED     = 0xC,
-  VGA_BIOS_COLOR_LIGHT_MAGENTA = 0xD,
-  VGA_BIOS_COLOR_YELLOW        = 0xE,
-  VGA_BIOS_COLOR_WHITE_HI      = 0xF,
-};
-
 
 /*
  * REGISTER MANAGEMENT
@@ -220,6 +199,24 @@ static inline u8 _write_ext_vga_feature(const u16 write_port, const u16 read_por
   return _write_ext_vga_port(write_port, read_port, reg_value);
 }
 
+u16* alp_num_mem = (u16*)0xB8000;
 
-void vga_main(void) {
+void vga_init(void) {
+  vga_flush();
+}
+
+void vga_flush(void) {
+  for(u8 w = 0; w < 80; w++)
+    for(u8 h = 0; h < 25; h++)
+      alp_num_mem[h*80 + w] = 0;
+}
+
+void vga_putchar(u8 character, u8 attr, u8 position_w, u8 position_h) {
+  if (position_w < 80)
+    if (position_h < 25)
+      alp_num_mem[position_h*80 + position_w] = (u16)character | (u16) attr << 8;
+}
+
+inline u8 attr_make_color(u8 bg, u8 fg) {
+  return bg << 4 | fg;
 }
