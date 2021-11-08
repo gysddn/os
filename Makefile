@@ -30,7 +30,7 @@ $(GRUB): $(PWD)/boot/grub.cfg
 
 $(KERNEL_FILE): compile
 	mkdir -p $(ISODIR)/boot
-	$(LD) -T$(LINKER_SCRIPT) $(OUT)/boot/boot.o $(OUT)/kernel/kernel.o $(OUT)/kernel/vga.o -o $@
+	$(LD) -T$(LINKER_SCRIPT) $(OUT)/boot/boot.o $(OUT)/kernel/kernel.o $(OUT)/kernel/vga.o $(OUT)/kernel/io.o -o $@
 
 compile:
 	$(MAKE) --directory boot
