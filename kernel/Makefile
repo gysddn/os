@@ -1,6 +1,6 @@
 KERNEL        :=$(OUT)/kernel.o
 OUTS          :=$(OUT)/kernel/kernel.o $(OUT)/kernel/serial.o $(OUT)/kernel/vga.o $(OUT)/kernel/io.o
-CFLAGS        :=-c -ffreestanding -masm=att
+CFLAGS        :=-c -ffreestanding -masm=att -nostdlib -nostdinc -I../libc/include
 LFLAGS        :=-r
 
 all: $(KERNEL)
