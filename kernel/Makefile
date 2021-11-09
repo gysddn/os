@@ -1,7 +1,12 @@
-KERNEL        :=$(OUT)/kernel/kernel.o $(OUT)/kernel/vga.o $(OUT)/kernel/io.o
+KERNEL        :=$(OUT)/kernel.o
+OUTS          :=$(OUT)/kernel/kernel.o $(OUT)/kernel/vga.o $(OUT)/kernel/io.o
 CFLAGS        :=-c -ffreestanding -masm=att
+LFLAGS        :=-r
 
 all: $(KERNEL)
+
+$(KERNEL): $(OUTS)
+	$(LD) $(LFLAGS) $^ -o $@
 
 $(OUT)/kernel/%.o: %.c
 	@ mkdir -p $(OUT)/kernel
