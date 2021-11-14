@@ -1,5 +1,6 @@
 #include "vga.h"
 #include "serial.h"
+#include "util.h"
 
 void kernel_main(void) {
   vga_init();
@@ -11,4 +12,8 @@ void kernel_main(void) {
   vga_putchar('o', color, 4, 0);
   char * message = "Hello\n";
   print_debug(message);
+
+  char buf[10];
+  int_to_string(buf, -1234567);
+  print_debug(buf);
 }
