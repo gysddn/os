@@ -9,6 +9,6 @@
 
 void print_debug(char * str) {
   while (*str != 0x00) {
-    write_port_byte(COM1, (u8)*str++);
+    out8(COM1, (u8)*str++);
   }
 }

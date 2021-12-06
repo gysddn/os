@@ -4,8 +4,8 @@
  *
  */
 
-.globl read_port_byte
-read_port_byte:
+.globl in8
+in8:
   push  %ebp
   mov   %esp, %ebp
   mov   8(%ebp), %dx
@@ -13,8 +13,8 @@ read_port_byte:
   pop   %ebp
   ret
 
-.globl read_port_word
-read_port_word:
+.globl in16
+in16:
   push  %ebp
   mov   %esp, %ebp
   mov   8(%ebp), %dx
@@ -22,8 +22,8 @@ read_port_word:
   pop   %ebp
   ret
 
-.globl read_port_dword
-read_port_dword:
+.globl in32
+in32:
   push  %ebp
   mov   %esp, %ebp
   mov   8(%ebp), %dx
@@ -31,8 +31,8 @@ read_port_dword:
   pop   %ebp
   ret
 
-.globl write_port_byte
-write_port_byte:
+.globl out8
+out8:
   push  %ebp
   mov   %esp, %ebp
   mov   8(%ebp), %dx
@@ -41,8 +41,8 @@ write_port_byte:
   pop   %ebp
   ret
 
-.globl write_port_word
-write_port_word:
+.globl out16
+out16:
   push  %ebp
   mov   %esp, %ebp
   mov   8(%ebp), %dx
@@ -51,8 +51,8 @@ write_port_word:
   pop   %ebp
   ret
 
-.globl write_port_dword
-write_port_dword:
+.globl out32
+out32:
   push  %ebp
   mov   %esp, %ebp
   mov   8(%ebp), %dx
