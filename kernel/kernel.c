@@ -1,6 +1,7 @@
 #include "vga.h"
 #include "serial.h"
 #include "util.h"
+#include <string.h>
 
 void kernel_main(void) {
   vga_init();
@@ -16,4 +17,6 @@ void kernel_main(void) {
   char buf[10];
   int_to_string(buf, -1234567);
   print_debug(buf);
+  String test_str;
+  str_test(&test_str);
 }
