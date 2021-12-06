@@ -5,6 +5,8 @@ LFLAGS        :=-r
 
 all: $(KERNEL)
 
+$(OUTS): io.h serial.h types.h util.h vga.h
+
 $(KERNEL): $(OUTS)
 	$(LD) $(LFLAGS) $^ -o $@
 
