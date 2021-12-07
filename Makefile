@@ -18,7 +18,8 @@ STDINC        :=$(ROOTDIR)/include/stdbool.h \
                 $(ROOTDIR)/include/stddef.h \
                 $(ROOTDIR)/include/stdint.h \
                 $(ROOTDIR)/include/stdnoreturn.h \
-                $(ROOTDIR)/include/string.h
+                $(ROOTDIR)/include/string.h \
+                $(ROOTDIR)/include/result.h
 STDLIB        :=$(OUT)/libc.o
 
 GRUB          :=$(ROOTDIR)/boot/grub/grub.cfg
