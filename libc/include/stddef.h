@@ -16,6 +16,6 @@ typedef long double max_align_t;
 
 typedef __WCHAR_TYPE__ wchar_t;
 
-#define NULL (void*)
+#define NULL (void*)0
 
 #define offsetof(t, m) __builtin_offsetof(t,m)
