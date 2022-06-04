@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "types.h"
+#include <stdint.h>
 
 enum {
   VGA_BIOS_COLOR_BLACK         = 0x0,
@@ -35,6 +35,6 @@ void vga_init();
 
 void vga_flush();
 
-void vga_putchar(u8 character, u8 attr, u8 position_w, u8 position_h);
+void vga_putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h);
 
-u8 attr_make_color(u8 bg, u8 fg);
+uint8_t attr_make_color(uint8_t bg, uint8_t fg);
