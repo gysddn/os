@@ -14,7 +14,7 @@
 //Debug
 void* ptr = (void*)0x1000000;
 
-void print_debug(char * str) {
+void print_debug(const char * str) {
   while (*str != 0x00) {
     out8(COM1, (u8)*str++);
   }

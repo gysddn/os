@@ -10,6 +10,6 @@
 
 #define COM1 0x3F8
 
-void print_debug(char * str);
+void print_debug(const char * str);
 
-int kprintf(const char * restrict format);
+int kprintf(const char * format);

@@ -217,6 +217,6 @@ void vga_putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t po
       alp_num_mem[position_h*80 + position_w] = (uint16_t)character | (uint16_t) attr << 8;
 }
 
-inline uint8_t attr_make_color(uint8_t bg, uint8_t fg) {
+uint8_t attr_make_color(uint8_t bg, uint8_t fg) {
   return bg << 4 | fg;
 }

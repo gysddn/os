@@ -14,8 +14,8 @@
 
 typedef struct string_s String;
 struct string_s {
-  char * restrict c_str;
+  char * c_str;
   uint32_t length;
 };
 
-void str_test(String * restrict s1);
+void str_test(String * s1);
