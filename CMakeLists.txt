@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 
 project(OS C CXX ASM)
 
-set(target i686-elf)
+set(ARCH i686-elf)
 set(TOOLCHAIN_ROOT /opt/i686-elf)
 set(TOOLCHAIN_PATH ${TOOLCHAIN_ROOT}/bin)
-set(TOOLCHAIN_PREFIX ${TOOLCHAIN_PATH}/${target}-)
+set(TOOLCHAIN_PREFIX ${TOOLCHAIN_PATH}/${ARCH}-)
+set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
@@ -18,6 +19,27 @@ set(CMAKE_RANLIB ${TOOLCHAIN_PREFIX}gcc-ranlib)
 set(CMAKE_STRIP ${TOOLCHAIN_PREFIX}strip)
 set(SERENITY_CXXFILT ${TOOLCHAIN_PREFIX}c++filt)
 
+set(LINKER_SCRIPT ${SOURCE_DIR}/linker.ld)
+
 set(GCC_VERSION "11.2.0")
 
+add_subdirectory(boot)
 add_subdirectory(kernel)
+
+target_link_libraries(kernel -T${LINKER_SCRIPT} boot)
+
+add_custom_target(generate-sysroot ALL
+  COMMAND "${CMAKE_COMMAND}" -E env "mkdir" "-p" "${CMAKE_BINARY_DIR}/sysroot/boot/grub"
+  COMMAND "${CMAKE_COMMAND}" -E env "cp" "${CMAKE_BINARY_DIR}/kernel/kernel" "${CMAKE_BINARY_DIR}/sysroot/boot"
+  COMMAND "${CMAKE_COMMAND}" -E env "cp" "${SOURCE_DIR}/boot/grub.cfg" "${CMAKE_BINARY_DIR}/sysroot/boot/grub"
+  BYPRODUCTS "${CMAKE_BINARY_DIR}/sysroot"
+  USES_TERMINAL
+  DEPENDS kernel
+)
+
+add_custom_target(grub-image ALL
+  COMMAND "${CMAKE_COMMAND}" -E env "grub-mkrescue" "-o" "${CMAKE_BINARY_DIR}/os.iso" "${CMAKE_BINARY_DIR}/sysroot"
+    BYPRODUCTS "${CMAKE_BINARY_DIR}/os.iso"
+    USES_TERMINAL
+    DEPENDS generate-sysroot
+)
