@@ -14,14 +14,6 @@ OUT           :=$(BUILD_DIR)/out
 ROOTDIR        :=$(BUILD_DIR)/root
 ISOFILE       :=$(BUILD_DIR)/os.iso
 
-STDINC        :=$(ROOTDIR)/include/stdbool.h \
-                $(ROOTDIR)/include/stddef.h \
-                $(ROOTDIR)/include/stdint.h \
-                $(ROOTDIR)/include/stdnoreturn.h \
-                $(ROOTDIR)/include/string.h \
-                $(ROOTDIR)/include/result.h
-STDLIB        :=$(OUT)/libc.o
-
 GRUB          :=$(ROOTDIR)/boot/grub/grub.cfg
 KERNEL_FILE   :=$(ROOTDIR)/boot/kernel
 
@@ -40,14 +32,11 @@ $(KERNEL_FILE): compile
 	mkdir -p $(ROOTDIR)/boot
 	$(LD) -T$(LINKER_SCRIPT) $(OUT)/boot/boot.o $(OUT)/kernel.o -o $@
 
-libc:
-	$(MAKE) --directory libc
-
-compile: libc
+compile:
 	$(MAKE) --directory boot
 	$(MAKE) --directory kernel
 
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean compile libc
+.PHONY: all clean compile
