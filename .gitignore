@@ -2,3 +2,4 @@
 build/
 TODO*
 .cache
+compile_commands.json

@@ -45,3 +45,9 @@ add_custom_target(grub-image ALL
     USES_TERMINAL
     DEPENDS generate-sysroot
 )
+
+add_custom_target(compile-commands ALL
+  COMMAND "${CMAKE_COMMAND}" -E env "cp" "${CMAKE_BINARY_DIR}/compile_commands.json" "${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json"
+    BYPRODUCTS "${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json"
+    USES_TERMINAL
+)
