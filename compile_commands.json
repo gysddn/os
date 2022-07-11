@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/gysddn/dev/os/code/build",
+  "command": "/opt/i686-elf/bin/i686-elf-gcc -c -o boot/CMakeFiles/boot.dir/boot.s.o -c /home/gysddn/dev/os/code/boot/boot.s",
+  "file": "/home/gysddn/dev/os/code/boot/boot.s"
+},
+{
+  "directory": "/home/gysddn/dev/os/code/build",
+  "command": "/opt/i686-elf/bin/i686-elf-g++ -I/home/gysddn/dev/os/code/kernel/include -ffreestanding -masm=att -o kernel/CMakeFiles/kernel.dir/io.cpp.o -c /home/gysddn/dev/os/code/kernel/io.cpp",
+  "file": "/home/gysddn/dev/os/code/kernel/io.cpp"
+},
+{
+  "directory": "/home/gysddn/dev/os/code/build",
+  "command": "/opt/i686-elf/bin/i686-elf-g++ -I/home/gysddn/dev/os/code/kernel/include -ffreestanding -masm=att -o kernel/CMakeFiles/kernel.dir/serial.cpp.o -c /home/gysddn/dev/os/code/kernel/serial.cpp",
+  "file": "/home/gysddn/dev/os/code/kernel/serial.cpp"
+},
+{
+  "directory": "/home/gysddn/dev/os/code/build",
+  "command": "/opt/i686-elf/bin/i686-elf-g++ -I/home/gysddn/dev/os/code/kernel/include -ffreestanding -masm=att -o kernel/CMakeFiles/kernel.dir/util.cpp.o -c /home/gysddn/dev/os/code/kernel/util.cpp",
+  "file": "/home/gysddn/dev/os/code/kernel/util.cpp"
+},
+{
+  "directory": "/home/gysddn/dev/os/code/build",
+  "command": "/opt/i686-elf/bin/i686-elf-g++ -I/home/gysddn/dev/os/code/kernel/include -ffreestanding -masm=att -o kernel/CMakeFiles/kernel.dir/vga.cpp.o -c /home/gysddn/dev/os/code/kernel/vga.cpp",
+  "file": "/home/gysddn/dev/os/code/kernel/vga.cpp"
+},
+{
+  "directory": "/home/gysddn/dev/os/code/build",
+  "command": "/opt/i686-elf/bin/i686-elf-g++ -I/home/gysddn/dev/os/code/kernel/include -ffreestanding -masm=att -o kernel/CMakeFiles/kernel.dir/kernel.cpp.o -c /home/gysddn/dev/os/code/kernel/kernel.cpp",
+  "file": "/home/gysddn/dev/os/code/kernel/kernel.cpp"
+}
+]

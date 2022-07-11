@@ -23,6 +23,8 @@ set(LINKER_SCRIPT ${SOURCE_DIR}/linker.ld)
 
 set(GCC_VERSION "11.2.0")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_subdirectory(boot)
 add_subdirectory(kernel)
 
