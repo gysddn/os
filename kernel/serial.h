@@ -6,10 +6,21 @@
 
 #pragma once
 
-#include "types.h"
+#include <stdint.h>
 
-#define COM1 0x3F8
+namespace kernel {
 
-void print_debug(const char * str);
+struct SerialIO {
+  static const uint32_t COM1 = 0x3F8;
 
-int kprintf(const char * format);
+  static void write(const char *str);
+  static void write(const uint32_t num, int base);
+  static void write(const void *ptr);
+  static void endl();
+
+  private:
+  static void prntnum(unsigned long num, int base, char *outbuf);
+   
+};
+
+} //End namespace kernel

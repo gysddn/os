@@ -15,6 +15,14 @@ namespace kernel {
   vga_putchar('l', color, 3, 0);
   vga_putchar('o', color, 4, 0);
 
+  SerialIO::write("This is a string");
+  SerialIO::endl();
+  SerialIO::write((uint32_t)0xFFFFFFFF, 16);
+  SerialIO::endl();
+  int test_int = 0xed;
+  SerialIO::write((void*)&test_int);
+  SerialIO::endl();
+
   while(true);
 }
 
