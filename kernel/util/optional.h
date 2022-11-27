@@ -4,6 +4,8 @@
  *
  */
 
+#pragma once
+
 namespace kernel { //Begin namespace kernel
 
 template<typename T>
