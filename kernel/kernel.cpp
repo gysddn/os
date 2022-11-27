@@ -1,6 +1,7 @@
 #include "vga.h"
 #include "serial.h"
 #include "util.h"
+#include "util/optional.h"
 #include <string.h>
 #include <stdint.h>
 
@@ -22,6 +23,21 @@ namespace kernel {
   int test_int = 0xed;
   SerialIO::write((void*)&test_int);
   SerialIO::endl();
+
+  optional<uint32_t> val{32};
+  if (val) {
+    SerialIO::write("optional value is: ");
+    SerialIO::write(val.value(), 10);
+    SerialIO::endl();
+  }
+
+  optional<uint32_t> val2{};
+  val2 = 5;
+  if (val2) {
+    SerialIO::write("optional value 2 is: ");
+    SerialIO::write(val2.value(), 10);
+    SerialIO::endl();
+  }
 
   while(true);
 }
