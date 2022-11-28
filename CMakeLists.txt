@@ -31,6 +31,7 @@ add_subdirectory(boot)
 add_subdirectory(kernel)
 
 target_link_libraries(kernel -T${LINKER_SCRIPT} boot)
+set_target_properties(kernel PROPERTIES LINK_DEPENDS ${LINKER_SCRIPT})
 
 add_custom_target(generate-sysroot ALL
   COMMAND "${CMAKE_COMMAND}" -E env "mkdir" "-p" "${CMAKE_BINARY_DIR}/sysroot/boot/grub"
