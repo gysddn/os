@@ -3,11 +3,9 @@ ENTRY(_start)
 SECTIONS {
   . = 1M;
 
-  .multiboot : {
-    * (.multiboot)
-  }
-
+  /* TODO seperate .multiboot is not working */
   .text : {
+    * (.multiboot)
     * (.text)
   }
 }
