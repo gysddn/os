@@ -6,6 +6,7 @@
 
 #include "vga.h"
 #include "io.h"
+#include "serial.h"
 
 /*
  * REGISTER MANAGEMENT
@@ -16,7 +17,7 @@ namespace kernel { //Namespace kernel begin
 
 uint16_t* alp_num_mem = (uint16_t*)0xB8000;
 
-VGA::VGA() {
+VGA::VGA() : misc_grph_reg(0x3CE, 0x3CF) {
   init();
 }
 
@@ -38,6 +39,19 @@ void VGA::putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t p
 
 uint8_t VGA::attr_make_color(uint8_t bg, uint8_t fg) {
   return bg << 4 | fg;
+}
+
+void VGA::setMemRegion(VGA::MemRegion region) {
+  auto reg_value = memRegion();
+  auto val_to_write = (reg_value & 0xF3) | ( (static_cast<uint8_t>(region)) << 2);
+  misc_grph_reg.write(val_to_write);
+}
+
+VGA::MemRegion VGA::memRegion() {
+  //Feature mask
+  static uint8_t mask = 0x0C;
+  auto value = (misc_grph_reg.read().value() & mask) >> 2;
+  return static_cast<VGA::MemRegion>(value);
 }
 
 

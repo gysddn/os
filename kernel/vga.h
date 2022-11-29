@@ -39,22 +39,6 @@ enum {
  * Currently supports 80x25 screen with Alphanumeric characters
  */
 
-class VGA {
-  uint16_t* alp_num_mem = (uint16_t*)0xB8000;
-
-public:
-  VGA();
-
-  void init();
-
-  void flush_screen();
-
-  void putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h);
-
-  static uint8_t attr_make_color(uint8_t bg, uint8_t fg);
-
-};
-
 
 class VGARegister {
 public:
@@ -189,6 +173,36 @@ public:
   //Calling these without setting index is undefined behavior
   optional<uint8_t> read();
   void write(uint8_t);
+};
+
+class VGA {
+  uint16_t* alp_num_mem = (uint16_t*)0xB8000;
+
+public:
+  using MemRegion = enum {
+    REGION_128K  = 0,
+    REGION_64K   = 1,
+    REGION_32K_1 = 2,
+    REGION_32K_2 = 3
+  };
+
+
+  VGA();
+
+  void init();
+
+  void flush_screen();
+
+  void putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h);
+
+  static uint8_t attr_make_color(uint8_t bg, uint8_t fg);
+
+  MemRegion memRegion();
+
+  void setMemRegion(MemRegion);
+
+private:
+  IndexedRegister misc_grph_reg;
 };
 
 }; //Namespace kernel end
