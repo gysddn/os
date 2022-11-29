@@ -15,8 +15,6 @@
 
 namespace kernel { //Namespace kernel begin
 
-uint16_t* alp_num_mem = (uint16_t*)0xB8000;
-
 VGA::VGA() : misc_grph_reg(0x3CE, 0x3CF) {
   init();
 }
