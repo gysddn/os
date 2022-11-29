@@ -39,16 +39,20 @@ enum {
  * Currently supports 80x25 screen with Alphanumeric characters
  */
 
-void vga_init();
-
-void vga_flush();
-
-void vga_putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h);
-
-uint8_t attr_make_color(uint8_t bg, uint8_t fg);
-
 class VGA {
   uint16_t* alp_num_mem = (uint16_t*)0xB8000;
+
+public:
+  VGA();
+
+  void init();
+
+  void flush_screen();
+
+  void putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h);
+
+  static uint8_t attr_make_color(uint8_t bg, uint8_t fg);
+
 };
 
 

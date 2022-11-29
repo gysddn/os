@@ -16,23 +16,27 @@ namespace kernel { //Namespace kernel begin
 
 uint16_t* alp_num_mem = (uint16_t*)0xB8000;
 
-void vga_init(void) {
-  vga_flush();
+VGA::VGA() {
+  init();
 }
 
-void vga_flush(void) {
+void VGA::init() {
+  flush_screen();
+}
+
+void VGA::flush_screen() {
   for(uint8_t w = 0; w < 80; w++)
     for(uint8_t h = 0; h < 25; h++)
       alp_num_mem[h*80 + w] = 0;
 }
 
-void vga_putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h) {
+void VGA::putchar(uint8_t character, uint8_t attr, uint8_t position_w, uint8_t position_h) {
   if (position_w < 80)
     if (position_h < 25)
       alp_num_mem[position_h*80 + position_w] = (uint16_t)character | (uint16_t) attr << 8;
 }
 
-uint8_t attr_make_color(uint8_t bg, uint8_t fg) {
+uint8_t VGA::attr_make_color(uint8_t bg, uint8_t fg) {
   return bg << 4 | fg;
 }
 
