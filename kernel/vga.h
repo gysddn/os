@@ -133,11 +133,15 @@ private:
 class IndexedRegister : public VGARegister {
 public:
   IndexedRegister() = delete;
-  IndexedRegister(uint16_t address_port, uint16_t data_port, uint8_t index):
-    _address_port(address_port), _data_port(data_port), _index(index) {}
+  IndexedRegister(uint16_t address_port, uint16_t data_port):
+    _address_port(address_port), _data_port(data_port) {}
 
+  //Calling these without setting index is undefined behavior
   optional<uint8_t> read();
   void write(uint8_t);
+
+  uint8_t index();
+  void setIndex(uint8_t);
 
 protected:
     uint16_t _address_port;
@@ -158,8 +162,12 @@ class CRTRegister : public VGARegister {
     _pair1({.addressPort = pair1_address, .dataPort = pair1_data}),
     _index(index) {}
 
+  //Calling these without setting index is undefined behavior
   optional<uint8_t> read();
   void write(uint8_t);
+
+  uint8_t index();
+  void setIndex(uint8_t);
 
 private:
     Pair _pair0;
@@ -175,9 +183,10 @@ private:
 class AttributeRegister : public IndexedRegister {
 public:
   AttributeRegister() = delete;
-  AttributeRegister(uint16_t address_port, uint16_t data_port, uint8_t index):
-    IndexedRegister(address_port, data_port, index) {}
+  AttributeRegister(uint16_t address_port, uint16_t data_port):
+    IndexedRegister(address_port, data_port) {}
 
+  //Calling these without setting index is undefined behavior
   optional<uint8_t> read();
   void write(uint8_t);
 };

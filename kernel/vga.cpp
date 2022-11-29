@@ -90,6 +90,14 @@ void IndexedRegister::write(uint8_t value) {
   out8(_data_port, value);
 }
 
+uint8_t IndexedRegister::index() {
+  return _index;
+}
+
+void IndexedRegister::setIndex(uint8_t index) {
+  _index = index;
+}
+
 optional<uint8_t> CRTRegister::read() {
  //Read Miscellaneous Output Register and mask with 1 to get
  //I/O Access field, which dictates which pair to use
@@ -117,6 +125,14 @@ void CRTRegister::write(uint8_t value) {
    out8(_pair1.addressPort, _index);
    out8(_pair1.dataPort, value);
  }
+}
+
+uint8_t CRTRegister::index() {
+  return _index;
+}
+
+void CRTRegister::setIndex(uint8_t index) {
+  _index = index;
 }
 
 optional<uint8_t> AttributeRegister::read() {
