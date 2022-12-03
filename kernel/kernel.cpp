@@ -1,3 +1,5 @@
+#include "../boot/multiboot.h"
+
 #include "vga.h"
 #include "serial.h"
 #include "util.h"
@@ -7,14 +9,40 @@
 
 namespace kernel {
 
- extern "C" [[noreturn]] void kernel_main(void) {
-  VGA vga{};
-  uint8_t color = VGA::attr_make_color(VGA_BIOS_COLOR_LIGHT_BLUE, VGA_BIOS_COLOR_WHITE_HI);
-  vga.putchar('H', color, 0, 0);
-  vga.putchar('e', color, 1, 0);
-  vga.putchar('l', color, 2, 0);
-  vga.putchar('l', color, 3, 0);
-  vga.putchar('o', color, 4, 0);
+extern "C" [[noreturn]] void kernel_main(void) {
+  unsigned int addr;
+  asm volatile("mov %%ebx, %0": "=r" (addr));
+  multiboot_info_t *boot_info = (multiboot_info_t*)addr;
+  uint32_t width = boot_info->framebuffer_width;
+  uint32_t height = boot_info->framebuffer_height;
+
+  uint32_t flags = boot_info->flags;
+  uint32_t fr_valid = (flags & MULTIBOOT_INFO_FRAMEBUFFER_INFO) >> 12;
+
+  SerialIO::write("info is valid: ");
+  SerialIO::write(fr_valid, 10);
+  SerialIO::endl();
+
+  SerialIO::write("height is: ");
+  SerialIO::write(height, 10);
+  SerialIO::endl();
+
+  SerialIO::write("width is: ");
+  SerialIO::write(width, 10);
+  SerialIO::endl();
+
+  SerialIO::write("pitch is: ");
+  SerialIO::write(boot_info->framebuffer_pitch, 10);
+  SerialIO::endl();
+
+  SerialIO::write("depth is: ");
+  SerialIO::write(boot_info->framebuffer_bpp, 10);
+  SerialIO::endl();
+
+  uint8_t* frame_buffer = (uint8_t*)boot_info->framebuffer_addr;
+  SerialIO::write("buffer addr is: ");
+  SerialIO::write(frame_buffer);
+  SerialIO::endl();
 
   SerialIO::write("This is a string");
   SerialIO::endl();
@@ -38,6 +66,15 @@ namespace kernel {
     SerialIO::write(val2.value(), 10);
     SerialIO::endl();
   }
+
+  for (int i = 0; i < height; ++i) {
+    for (int j = 0; j < width; ++j) {
+      frame_buffer[i * boot_info->framebuffer_pitch + j * 4 ] = 80;
+      frame_buffer[i * boot_info->framebuffer_pitch + j * 4 + 1] = 80;
+      frame_buffer[i * boot_info->framebuffer_pitch + j * 4 + 2] = 200;
+    }
+  }
+
 
   while(true);
 }
