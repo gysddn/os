@@ -8,7 +8,7 @@ Note that this script will download and "compile" these tools so you will need t
 first. To do that(on Ubuntu):
 
 ```
-sudo apt install build-essential wget m4 flex bison
+sudo apt install build-essential wget m4 flex bison zlib1g-dev libmpfr-dev libmpc-dev grub2-common grub-pc-bin xorriso fuse
 ```
 
 Then to set up the toolchain:
@@ -21,5 +21,12 @@ Once the toolchain is installed, you can just call make in the project root and 
 named 'os.iso' under build/:
 
 ```
-make
+cmake -B build -GNinja .
+ninja -C build
+```
+
+You can then run it:
+
+```
+qemu-system-i386 -hda build/os.iso
 ```
