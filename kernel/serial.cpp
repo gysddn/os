@@ -13,8 +13,22 @@
 
 namespace kernel {
 
-//Debug
-void* ptr = (void*)0x1000000;
+
+optional<const char*> SerialIO::msg() {
+  return _msg;
+}
+
+void SerialIO::setMsg(const char* message) {
+  _msg = message;
+}
+
+void SerialIO::setBase(SerialIO::Base base) {
+  _base = base;
+}
+
+SerialIO::Base SerialIO::base() {
+  return _base;
+}
 
 void SerialIO::write(const char *str) {
   while (*str != 0x00) {
@@ -22,9 +36,9 @@ void SerialIO::write(const char *str) {
   }
 }
 
-void SerialIO::write(uint32_t num, int base) {
+void SerialIO::write(uint32_t num) {
   char buf[13];
-  prntnum(num, base, (char*)&buf);
+  prntnum(num, _base, (char*)&buf);
   write((char*)&buf);
 }
 
@@ -46,10 +60,6 @@ void SerialIO::write(const void *ptr) {
   }while( int_ptr > 0);
 
   write((char*)&buf);
-}
-
-void SerialIO::endl() {
-  write("\n");
 }
 
 void SerialIO::prntnum(unsigned long num, int base, char *outbuf)
@@ -75,6 +85,26 @@ void SerialIO::prntnum(unsigned long num, int base, char *outbuf)
 
     //Terminate it with null
     outbuf[j] = 0;
+}
+
+SerialIO& operator<<(SerialIO& io, const char *str) {
+  io.write(str);
+  return io;
+}
+
+SerialIO& operator<<(SerialIO& io, uint32_t num) {
+  io.write(num);
+  return io;
+}
+
+SerialIO& operator<<(SerialIO& io, const void* ptr) {
+  io.write(ptr);
+  return io;
+}
+
+SerialIO& operator<<(SerialIO& io, SerialIO::Base base) {
+  io.setBase(base);
+  return io;
 }
 
 

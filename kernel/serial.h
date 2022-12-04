@@ -7,20 +7,49 @@
 #pragma once
 
 #include <stdint.h>
+#include "util/optional.h"
 
 namespace kernel {
 
 struct SerialIO {
-  static const uint32_t COM1 = 0x3F8;
+public:
+  //Use enum so that operator can differentiate between a base input
+  //and a number input
+  using Base = enum {
+    Base8   =  8,
+    Base10  = 10,
+    Base16  = 16
+  };
 
-  static void write(const char *str);
-  static void write(const uint32_t num, int base);
-  static void write(const void *ptr);
-  static void endl();
+  SerialIO() : _base(Base10), _msg() {};
 
-  private:
-  static void prntnum(unsigned long num, int base, char *outbuf);
-   
+  void write(const char *str);
+  void write(const uint32_t num);
+  void write(const void *ptr);
+
+  Base base();
+  void setBase(Base);
+
+  optional<const char*> msg();
+  void setMsg(const char* message);
+
+  //TODO make out flush
+  /* static void endl(); */
+
+private:
+  static constexpr uint32_t COM1 = 0x3F8;
+
+  Base _base;
+  optional<const char*> _msg;
+
+  //Helper function
+  void prntnum(unsigned long num, int base, char *outbuf);
+
 };
+
+SerialIO& operator<<(SerialIO& io, const char *str);
+SerialIO& operator<<(SerialIO& io, uint32_t num);
+SerialIO& operator<<(SerialIO& io, const void* ptr);
+SerialIO& operator<<(SerialIO& io, SerialIO::Base base);
 
 } //End namespace kernel

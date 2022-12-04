@@ -19,53 +19,16 @@ extern "C" [[noreturn]] void kernel_main(void) {
   uint32_t flags = boot_info->flags;
   uint32_t fr_valid = (flags & MULTIBOOT_INFO_FRAMEBUFFER_INFO) >> 12;
 
-  SerialIO::write("info is valid: ");
-  SerialIO::write(fr_valid, 10);
-  SerialIO::endl();
+  SerialIO io;
 
-  SerialIO::write("height is: ");
-  SerialIO::write(height, 10);
-  SerialIO::endl();
-
-  SerialIO::write("width is: ");
-  SerialIO::write(width, 10);
-  SerialIO::endl();
-
-  SerialIO::write("pitch is: ");
-  SerialIO::write(boot_info->framebuffer_pitch, 10);
-  SerialIO::endl();
-
-  SerialIO::write("depth is: ");
-  SerialIO::write(boot_info->framebuffer_bpp, 10);
-  SerialIO::endl();
+  io << "info is valid: " << fr_valid << "\n";
+  io << "height is: " << height << "\n";
+  io << "width is: " << width << "\n";
+  io << "pitch is: " << boot_info->framebuffer_pitch << "\n";
+  io << "depth is: " << boot_info->framebuffer_bpp << "\n";
 
   uint8_t* frame_buffer = (uint8_t*)boot_info->framebuffer_addr;
-  SerialIO::write("buffer addr is: ");
-  SerialIO::write(frame_buffer);
-  SerialIO::endl();
-
-  SerialIO::write("This is a string");
-  SerialIO::endl();
-  SerialIO::write((uint32_t)0xFFFFFFFF, 16);
-  SerialIO::endl();
-  int test_int = 0xed;
-  SerialIO::write((void*)&test_int);
-  SerialIO::endl();
-
-  optional<uint32_t> val{32};
-  if (val) {
-    SerialIO::write("optional value is: ");
-    SerialIO::write(val.value(), 10);
-    SerialIO::endl();
-  }
-
-  optional<uint32_t> val2{};
-  val2 = 5;
-  if (val2) {
-    SerialIO::write("optional value 2 is: ");
-    SerialIO::write(val2.value(), 10);
-    SerialIO::endl();
-  }
+  io << "buffer addr is: " << (void*)frame_buffer << "\n";
 
   for (int i = 0; i < height; ++i) {
     for (int j = 0; j < width; ++j) {
