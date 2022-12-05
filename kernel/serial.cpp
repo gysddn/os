@@ -87,21 +87,6 @@ void SerialIO::prntnum(unsigned long num, int base, char *outbuf)
     outbuf[j] = 0;
 }
 
-SerialIO& operator<<(SerialIO& io, const char *str) {
-  io.write(str);
-  return io;
-}
-
-SerialIO& operator<<(SerialIO& io, uint32_t num) {
-  io.write(num);
-  return io;
-}
-
-SerialIO& operator<<(SerialIO& io, const void* ptr) {
-  io.write(ptr);
-  return io;
-}
-
 SerialIO& operator<<(SerialIO& io, SerialIO::Base base) {
   io.setBase(base);
   return io;

@@ -30,6 +30,8 @@ extern "C" [[noreturn]] void kernel_main(void) {
   uint8_t* frame_buffer = (uint8_t*)boot_info->framebuffer_addr;
   io << "buffer addr is: " << (void*)frame_buffer << "\n";
 
+  io << "decimal: " << 10 << ", and hex: " << SerialIO::Base16 << 0x20 << "\n";
+
   for (int i = 0; i < height; ++i) {
     for (int j = 0; j < width; ++j) {
       frame_buffer[i * boot_info->framebuffer_pitch + j * 4 ] = 80;

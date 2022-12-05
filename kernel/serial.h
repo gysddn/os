@@ -47,9 +47,12 @@ private:
 
 };
 
-SerialIO& operator<<(SerialIO& io, const char *str);
-SerialIO& operator<<(SerialIO& io, uint32_t num);
-SerialIO& operator<<(SerialIO& io, const void* ptr);
 SerialIO& operator<<(SerialIO& io, SerialIO::Base base);
+
+template<typename T>
+SerialIO& operator<<(SerialIO& io, T arg) {
+  io.write(arg);
+  return io;
+}
 
 } //End namespace kernel
