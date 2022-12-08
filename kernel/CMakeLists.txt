@@ -4,6 +4,7 @@ set(KERNEL_SOURCES
     util.cpp
     vga.cpp
     kernel.cpp
+    gui/window.cpp
     )
 
 include_directories(include)
