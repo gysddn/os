@@ -8,6 +8,10 @@
 
 namespace kernel { //Begin namespace kernel
 
+struct NoneType {};
+
+#define none NoneType()
+
 template<typename T>
 class optional {
 public:
@@ -19,6 +23,10 @@ public:
   optional(T val) {
     _value = val;
     _isSet = true;
+  }
+
+  optional(NoneType) {
+    _isSet = false;
   }
 
   void unset() {
@@ -45,6 +53,11 @@ public:
   optional<T>& operator=(T val) {
     _value = val;
     _isSet = true;
+    return *this;
+  }
+
+  optional<T>& operator=(NoneType) {
+    _isSet = false;
     return *this;
   }
 

@@ -40,6 +40,10 @@ extern "C" [[noreturn]] void kernel_main(void) {
     }
   }
 
+  optional<int> some = none;
+  some = 5;
+  io << "my value is: " << some.value() << "\n";
+
 
   while(true);
 }
