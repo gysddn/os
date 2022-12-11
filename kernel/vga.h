@@ -45,18 +45,10 @@ public:
 
   optional<uint8_t> state();
 
-  /*
-   * These functions do not exist and for documentation only.
-   * They are meant to be virtual but since there is not memory management yet,
-   * it is not possible.
-   */
-
-  /* optional<uint8_t> read(); */
+  virtual optional<uint8_t> read() = 0;
 
   //TODO error state, a Result type implementation??
-  /* void write(uint8_t); */
-
-  /* optional<uint8_t> state(); */
+  virtual void write(uint8_t) = 0;
 
 protected:
   //Can't use virtual functions, so disable the instantiation of this class

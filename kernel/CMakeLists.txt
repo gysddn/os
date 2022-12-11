@@ -10,6 +10,7 @@ set(KERNEL_SOURCES
 include_directories(include)
 
 add_compile_options(-ffreestanding)
+add_compile_options(-fno-rtti)
 add_compile_options(-masm=att)
 
 add_compile_options(-Wall)
