@@ -49,7 +49,7 @@ add_custom_target(grub-image ALL
     DEPENDS generate-sysroot
 )
 
-add_custom_target(limine_image ALL
+add_custom_target(limine-image ALL
   COMMAND "${CMAKE_COMMAND}" -E env "OS_BUILD_DIR=${CMAKE_BINARY_DIR}" "LIMINE_CFG=${CMAKE_CURRENT_SOURCE_DIR}/boot/limine.cfg" "${CMAKE_CURRENT_SOURCE_DIR}/meta/make_iso.sh"
     BYPRODUCTS "${CMAKE_BINARY_DIR}/limine_image.iso"
     USES_TERMINAL
