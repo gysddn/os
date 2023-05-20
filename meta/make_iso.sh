@@ -4,11 +4,9 @@ GREEN='\033[0;32m'
 RESET='\033[0m'
 
 readonly SCRIPT_DIR=$(dirname "$0")
-readonly BUILD_DIR="${SCRIPT_DIR}/../build"
-readonly KERNEL_PATH="${BUILD_DIR}/kernel/kernel"
-readonly IMG_FILE="${BUILD_DIR}/os.iso"
-readonly LIMINE_DIR="${BUILD_DIR}/limine"
-readonly LIMINE_CFG="${BUILD_DIR}/../boot/limine.cfg"
+readonly KERNEL_PATH="${OS_BUILD_DIR}/kernel/kernel"
+readonly IMG_FILE="${OS_BUILD_DIR}/limine_image.iso"
+readonly LIMINE_DIR="${OS_BUILD_DIR}/limine"
 readonly TMP_IMG="/tmp/disk.iso"
 
 if [ ! -e $KERNEL_PATH ]; then
@@ -70,8 +68,8 @@ sudo mount ${USED_LOOPBACK}p1 img_mount
  
 printf "${GREEN}Setting up files...${RESET}\n";
 sudo mkdir -p img_mount/EFI/BOOT
-sudo cp -v ${KERNEL_PATH} ${LIMINE_CFG} limine/limine.sys img_mount/
-sudo cp -v limine/BOOTX64.EFI img_mount/EFI/BOOT/
+sudo cp -v ${KERNEL_PATH} ${LIMINE_CFG} ${OS_BUILD_DIR}/limine/limine.sys img_mount/
+sudo cp -v ${OS_BUILD_DIR}/limine/BOOTX64.EFI img_mount/EFI/BOOT/
  
 # Sync system cache and unmount partition and loopback device.
 sync

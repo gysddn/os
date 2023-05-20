@@ -44,10 +44,18 @@ add_custom_target(generate-sysroot ALL
 
 add_custom_target(grub-image ALL
   COMMAND "${CMAKE_COMMAND}" -E env "grub-mkrescue" "-o" "${CMAKE_BINARY_DIR}/os.iso" "${CMAKE_BINARY_DIR}/sysroot"
-    BYPRODUCTS "${CMAKE_BINARY_DIR}/os.iso"
+    BYPRODUCTS "${CMAKE_BINARY_DIR}/grub_image.iso"
     USES_TERMINAL
     DEPENDS generate-sysroot
 )
+
+add_custom_target(limine_image ALL
+  COMMAND "${CMAKE_COMMAND}" -E env "OS_BUILD_DIR=${CMAKE_BINARY_DIR}" "LIMINE_CFG=${CMAKE_CURRENT_SOURCE_DIR}/boot/limine.cfg" "${CMAKE_CURRENT_SOURCE_DIR}/meta/make_iso.sh"
+    BYPRODUCTS "${CMAKE_BINARY_DIR}/limine_image.iso"
+    USES_TERMINAL
+    DEPENDS kernel
+)
+
 
 add_custom_target(compile-commands ALL
   COMMAND "${CMAKE_COMMAND}" -E env "cp" "${CMAKE_BINARY_DIR}/compile_commands.json" "${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json"
